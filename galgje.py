@@ -239,12 +239,27 @@ def main():
                                                    gekozen_woord, beurt,
                                                    letters_gebruikt)
                             letters_gebruikt = gebruikte_letters(gis)
-
-                        print(updated_woord)
                         galg = galg_maken(beurt)
-                        for rij in galg:
-                            print(rij)
-                        print(letters_gebruikt)
+
+                        print('{:>5}{:>41}\n'
+                              '{:>5}{:^60}\n'
+                              '{:>5}\n'
+                              '{:>5}{:^60}\n'
+                              '{:>5}\n'
+                              '{:>5}{:^60}\n'
+                              '{:>5}\n\n'
+                              '{:^40}\n'
+                              '{:^40}'.format(
+                                'Galgje:', 'Gebruikte letters',
+                                galg[0], ' '.join(letters_vakje[:9]),
+                                galg[1],
+                                galg[2], ' '.join(letters_vakje[9:18]),
+                                galg[3],
+                                galg[4], ' '.join(letters_vakje[18:26]),
+                                galg[5],
+                                'Het te raden woord:',
+                                ' '.join(updated_woord)))
+
                     else:
                         print('test')
                         woord_geraden = True

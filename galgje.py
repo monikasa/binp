@@ -262,18 +262,19 @@ def main():
 
                     else:
                         print('test')
-                        woord_geraden = True
+                        woord_geraden = True # THIS HAS TO BE CHANGED!!!!!!!!!
 
-                tijd2 = tijd_tellen()
-                totaale_tijd = round(tijd2 - tijd)
-                punten = punten_tellen(totaale_tijd, gekozen_woord, beurt)
-                minuten, seconden = divmod(totaale_tijd, 60)
-                eind_tijd = "{}m{}s".format(minuten, seconden)
-                lijst_ranking = ranking_vullen(scores,
-                                               speler_naam, gekozen_woord,
-                                               beurt, eind_tijd, punten)
-                ranking_wegschrijven(lijst_ranking, kopje)
-                print(lijst_ranking)
+                if woord_geraden:
+                    tijd2 = tijd_tellen()
+                    totaale_tijd = round(tijd2 - tijd)
+                    punten = punten_tellen(totaale_tijd, gekozen_woord, beurt)
+                    minuten, seconden = divmod(totaale_tijd, 60)
+                    eind_tijd = "{}m{}s".format(minuten, seconden)
+                    lijst_ranking = ranking_vullen(scores,
+                                                   speler_naam, gekozen_woord,
+                                                   beurt, eind_tijd, punten)
+                    ranking_wegschrijven(lijst_ranking, kopje)
+                    print(lijst_ranking)
             elif int(k_keuze) == 3:
                 opnieuw_vragen = 'stop'
             elif int(k_keuze) == 4:

@@ -22,16 +22,16 @@ def woord_toevoegen(w_toegevoegde_woord, w_woordenlijst):
             if letter.isalpha():
                 l_woord += letter
         if l_woord in w_woordenlijst:
-            verkeerde_woord = 'Dit woord komt al voor in deze lijst.'
+            verkeerde_woord = 'Dit woord komt al voor in de woordenlijst.'
         elif len(l_woord) < 3 or len(w_toegevoegde_woord) > 38:
             verkeerde_woord = 'Woorden mogen niet korter zijn dan 3 ' \
                               'letters en niet langer zijn dan 38 letters.'
         else:
             w_woordenlijst.append(l_woord)
             w_woordenlijst.sort(key=len, reverse=False)
-            verkeerde_woord = 'Het woord ' + l_woord + ' is toegevoegd.'
+            verkeerde_woord = 'Het woord "' + l_woord + '" is toegevoegd.'
     else:
-        verkeerde_woord = 'Dit woord komt al voor in deze lijst.'
+        verkeerde_woord = 'Dit woord komt al voor in de woordenlijst.'
 
     return w_woordenlijst, verkeerde_woord
 
@@ -174,13 +174,14 @@ def main():
 
     opnieuw_vragen = 'doorgaan'
     while opnieuw_vragen == 'doorgaan':
-        k_keuze = input('\r\nWat wil je doen?\r\n1. Een woord toevogen'
+        k_keuze = input('\r\nWat wil je doen?\r\n1. Een woord toevoegen'
                         '\r\n2. Het spel spelen\r\n3. De ranking bekijken'
                         '\r\n4. Stoppen\r\n\nMaak je keuze: ')
         if k_keuze.isdigit():
 
             if int(k_keuze) not in range(1, 5):
-                print('Je had verkeerde keuze gemaakt. Probeer het nog eens')
+                print('Je hebt geen geldige keuze gemaakt.'
+                      'Probeer het nog eens')
             elif int(k_keuze) == 1:
                 toegevoegde_woord = input('Voer een woord in: ').lower()
                 woorden_lijst, verkeerde_woord = \
@@ -200,26 +201,24 @@ def main():
 
                 print(gekozen_woord)
                 letters_vakje = gebruikte_letters(gis)
-                letters_vakje = [' '.join(letters_vakje[:9]), ' '.join(letters_vakje[9:18]), ' '.join(letters_vakje[18:26])]
-                updated_woord, woord_geraden = letter_raden \
-                    (gis, gekozen_woord)
+                updated_woord, woord_geraden = letter_raden(gis,
+                                                            gekozen_woord)
                 galg = galg_maken(beurt)
-                print('{:>5}{:>41}\n' \
-                '{:>5}{:^60}\n' \
-                '{:>5}\n' \
-                '{:>5}{:^60}\n' \
-                '{:>5}\n' \
-                '{:>5}{:^60}\n' \
-                '{:>5}\n' \
-                '\n' \
-                '{:^40}\n' \
-                '{:^40}'.format(
+                print('{:>5}{:>41}\n'
+                      '{:>5}{:^60}\n'
+                      '{:>5}\n'
+                      '{:>5}{:^60}\n'
+                      '{:>5}\n'
+                      '{:>5}{:^60}\n'
+                      '{:>5}\n\n'
+                      '{:^40}\n'
+                      '{:^40}'.format(
                         'Galgje:', 'Gebruikte letters',
-                        galg[0], letters_vakje[0],
+                        galg[0], ' '.join(letters_vakje[:9]),
                         galg[1],
-                        galg[2], letters_vakje[1],
+                        galg[2], ' '.join(letters_vakje[9:18]),
                         galg[3],
-                        galg[4], letters_vakje[2],
+                        galg[4], ' '.join(letters_vakje[18:26]),
                         galg[5],
                         'Het te raden woord:',
                         ' '.join(updated_woord)))
@@ -227,7 +226,7 @@ def main():
                 while not woord_geraden and beurt < 10:
                     if beurt < 9:
                         geraden_letter = input(
-                                'Type een letter of een word: ')
+                                'Type een letter of een woord: ')
                         if len(geraden_letter) > 1:
                             woord_geraden, beurt = woord_raden(geraden_letter,
                                                                gekozen_woord,
@@ -240,12 +239,27 @@ def main():
                                                    gekozen_woord, beurt,
                                                    letters_gebruikt)
                             letters_gebruikt = gebruikte_letters(gis)
-
-                        print(updated_woord)
                         galg = galg_maken(beurt)
-                        for rij in galg:
-                            print(rij)
-                        print(letters_gebruikt)
+
+                        print('{:>5}{:>41}\n'
+                              '{:>5}{:^60}\n'
+                              '{:>5}\n'
+                              '{:>5}{:^60}\n'
+                              '{:>5}\n'
+                              '{:>5}{:^60}\n'
+                              '{:>5}\n\n'
+                              '{:^40}\n'
+                              '{:^40}'.format(
+                                'Galgje:', 'Gebruikte letters',
+                                galg[0], ' '.join(letters_vakje[:9]),
+                                galg[1],
+                                galg[2], ' '.join(letters_vakje[9:18]),
+                                galg[3],
+                                galg[4], ' '.join(letters_vakje[18:26]),
+                                galg[5],
+                                'Het te raden woord:',
+                                ' '.join(updated_woord)))
+
                     else:
                         print('test')
                         woord_geraden = True
@@ -263,7 +277,7 @@ def main():
             elif int(k_keuze) == 3:
                 opnieuw_vragen = 'stop'
             elif int(k_keuze) == 4:
-                print('Het speel is gestopt')
+                print('Het spel is gestopt')
                 sluiten()
                 opnieuw_vragen = 'stop'
         else:

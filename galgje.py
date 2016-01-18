@@ -222,7 +222,7 @@ def main():
                         galg[4], letters_vakje[2],
                         galg[5],
                         'Het te raden woord:',
-                        updated_woord))
+                        ' '.join(updated_woord)))
 
                 while not woord_geraden and beurt < 10:
                     if beurt < 9:

@@ -200,10 +200,11 @@ def main():
 
                 print(gekozen_woord)
                 letters_vakje = gebruikte_letters(gis)
+                letters_vakje = [' '.join(letters_vakje[:9]), ' '.join(letters_vakje[9:18]), ' '.join(letters_vakje[18:26])]
                 updated_woord, woord_geraden = letter_raden \
                     (gis, gekozen_woord)
                 galg = galg_maken(beurt)
-                '{:>5}{:>41}\n' \
+                print('{:>5}{:>41}\n' \
                 '{:>5}{:^60}\n' \
                 '{:>5}\n' \
                 '{:>5}{:^60}\n' \
@@ -212,16 +213,16 @@ def main():
                 '{:>5}\n' \
                 '\n' \
                 '{:^40}\n' \
-                '{!s:^40}'.format(
+                '{:^40}'.format(
                         'Galgje:', 'Gebruikte letters',
                         galg[0], letters_vakje[0],
                         galg[1],
-                        galg, letters_vakje[1],
+                        galg[2], letters_vakje[1],
                         galg[3],
                         galg[4], letters_vakje[2],
                         galg[5],
                         'Het te raden woord:',
-                        updated_woord)
+                        ' '.join(updated_woord)))
 
                 while not woord_geraden and beurt < 10:
                     if beurt < 9:

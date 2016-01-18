@@ -262,7 +262,7 @@ def main():
             elif int(k_keuze) == 3:
                 opnieuw_vragen = 'stop'
             elif int(k_keuze) == 4:
-                print('Het spee is gestopt')
+                print('Het spel is gestopt')
                 sluiten()
                 opnieuw_vragen = 'stop'
         else:

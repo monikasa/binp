@@ -6,8 +6,10 @@ import time
 
 def lijst_maken():
     """
+    Funktiebeschrijving: Deze funktie leest een file en maakt er een
+    woordenlijst van.
 
-    :return:
+    :return: wordenlijst
     """
     l_woorden = open('woorden.lst', 'r')
     l_woordenlijst = l_woorden.read().split()
@@ -16,6 +18,16 @@ def lijst_maken():
 
 
 def woord_toevoegen(w_toegevoegde_woord, w_woordenlijst):
+    """
+    Funktiebeschirjving: Deze funktie controleert of de woord die gebruiker
+    wilt toevoegen correct i en of het id de lijst nog niet voorkomt.
+
+    :param w_toegevoegde_woord: een string die door gebruiker ingevoerd wordt
+    :param w_woordenlijst: woordenlijst met alle woorden
+
+    :return: updated woordenlijst(type: woordenlijst)
+    :return: string met informatie voor de gebruiker
+    """
     l_woord = ''
     if w_toegevoegde_woord not in w_woordenlijst:
         for letter in w_toegevoegde_woord:
@@ -37,6 +49,17 @@ def woord_toevoegen(w_toegevoegde_woord, w_woordenlijst):
 
 
 def letter_raden(w_gis, w_gekozen_woord):
+    """
+    Deze funktie kontroleert of door gebruiker ingvoerde letters in de woord
+    zijn en voeg ze aan de string toe als ze klopen. In ander gevaaal wordt
+    het ingevoerde letter verplaatst met een '*'.
+
+    :param w_gis: door gebruiker ingevoerde letter
+    :param w_gekozen_woord: random word gekozen uit het woordenlijst
+
+    :return: een string met ingevoerde tekens
+    :return: een boelien
+    """
     geraden = True
     updated_woord = ''
     for letter in w_gekozen_woord:
@@ -49,6 +72,17 @@ def letter_raden(w_gis, w_gekozen_woord):
 
 
 def woord_raden(w_geraden_letter, w_gekozen_woord, w_beurten):
+    """
+    Deze funktie kontroleert of invoer van het gebruiker in het woord gekozen
+    uit het lijst hetzelfde is en in het gevaal dat de woord niet klopt teelt
+    het 3 fouten op.
+
+    :param w_geraden_letter: door gebruike ingevoerde teken
+    :param w_gekozen_woord: een random woord gekozen uit het woordenlijst
+    :param w_beurten: aantal fouten
+
+    :return: aantal fouten
+    """
     if w_geraden_letter == w_gekozen_woord:
         return True, w_beurten
     else:
@@ -59,6 +93,18 @@ def woord_raden(w_geraden_letter, w_gekozen_woord, w_beurten):
 
 
 def beurten_tellen(b_letter, b_gekozen_woord, b_beurt, b_gebruikte_letters):
+    """
+    Deze funktie kontroleert of het door gebruiker ingevoerde letter in het
+    random gekozen woord is, als het niet het gevaal is teelt het 1 fout op.
+
+    :param b_letter: door het gebruiker ingevorde letter
+    :param b_gekozen_woord: random woord gekozen uit het woordenlijst
+    :param b_beurt: aantal fouten
+    :param b_gebruikte_letters: letters die door het gebruiker al ingevoerd
+    werden
+
+    :return: aantal fouten
+    """
     if b_letter in b_gebruikte_letters:
         b_beurt = b_beurt
     elif b_letter not in b_gekozen_woord:
@@ -67,6 +113,13 @@ def beurten_tellen(b_letter, b_gekozen_woord, b_beurt, b_gebruikte_letters):
 
 
 def galg_maken(g_beurten):
+    """
+    Deze funtkie maakt een lijst met figuren die een galg gaan opbouwen.
+
+    :param g_beurten: aantal fouten
+
+    :return: lijst met fiuren voor het galg
+    """
     g_figuuren = [
         '         ;         ;         ;         ;         ;         ',
         '         ;  |      ;  |      ;  |      ;  |      ; / \     ',
@@ -83,6 +136,14 @@ def galg_maken(g_beurten):
 
 
 def gebruikte_letters(g_gis):
+    """
+    Deze funktie maakt een lijst met alle letters die gebruier al ingevoerd
+    had.
+
+    :param g_gis: door het gebruiker ingevoerde letter
+
+    :return: lijst met gebruikte letters
+    """
     letters = []
     for letter in ascii_lowercase:
         if letter in g_gis:
@@ -93,17 +154,36 @@ def gebruikte_letters(g_gis):
 
 
 def tijd_tellen():
+    """
+    Deze funktie slaat het begin tijd op
+
+    :return: begin tijd
+    """
     t_tijd = time.time()
     return t_tijd
 
 
 def punten_tellen(p_tijd, p_gekozen_woord, p_beurten):
+    """
+    Deze funktie rekent punten van het gebruiker
+
+    :param p_tijd: totaale tijd van het spel
+    :param p_gekozen_woord: random woord uit het woordenlijst
+    :param p_beurten: aantal fouten
+
+    :return: aantal punten
+    """
     p_punten = 10000 * (len(p_gekozen_woord) / ((p_tijd * p_beurten) + 1))
     p_punten = int(p_punten)
     return p_punten
 
 
 def rankinglijst_maken():
+    """
+    Deze funktie leest een ranking file tot de lijst
+
+    :return: ranking lijst
+    """
     ranking_file = open('ranking.txt', 'r')
     lijst_ranking = []
     inhoud_bestand = ranking_file.read().splitlines()
@@ -140,6 +220,13 @@ def ranking_vullen(r_lijst, r_naam, r_gekozen_woord, r_beurten, r_tijd,
 
 
 def ranking_wegschrijven(r_ranking, r_kopje):
+    """
+    Funktiebeschrijving: Deze funktie schrijf een rankinglijst tot een file.
+
+    :param: r_ranking: lijst met ranking
+    :param: r_kopje eerste regel uit het ranking file
+
+    """
     file = open('ranking.txt', 'w')
 
     r_schrijfbaar = []
@@ -154,6 +241,14 @@ def ranking_wegschrijven(r_ranking, r_kopje):
 
 
 def strip(s_naam):
+    """
+    Funktiebeschrijving: Deze funktie strip het door gebruiker ingevoerde naam
+    uit alle tekens die neit alfabetisch zijn.
+
+    :param: s_naam:door het gebruiker ingevoerde naam
+
+    :return: gestripde naam (string)
+    """
     s_return = ''
     for letter in s_naam:
         if letter.isalpha():

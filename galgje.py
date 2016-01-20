@@ -209,14 +209,14 @@ def ranking_vullen(r_lijst, r_naam, r_gekozen_woord, r_beurten, r_tijd,
     r_lengte = len(r_gekozen_woord)
     r_lijst.append(['', str(r_naam), str(r_lengte), str(r_beurten),
                     str(r_tijd), str(r_punten)])
-    r_lijst.sort(key=lambda item: int(item[5]), reverse=True)
+    r_lijst.sort(key=lambda itemrij: int(itemrij[5]), reverse=True)
     positie = 1
     for item, value in enumerate(r_lijst):
         r_lijst[item][0] = str(positie)
         positie += 1
     r_lijst = r_lijst[0:10]
 
-    return r_lijst
+    return r_lijst, positie
 
 
 def ranking_wegschrijven(r_ranking, r_kopje):
@@ -239,13 +239,23 @@ def ranking_wegschrijven(r_ranking, r_kopje):
     file.write('\n'.join(r_schrijfbaar))
     file.close()
 
+def letters_kontroleren(l_gekozen_woord, l_gebruikte_letters):
+
+    for letter in l_gekozen_woord:
+        if letter not in l_gebruikte_letters:
+            return False
+    return True
+
+def woord_kontroleren(w_gis, w_gekozen_woord):
+    return w_gis == w_gekozen_woord
+
 
 def strip(s_naam):
     """
     Funktiebeschrijving: Deze funktie strip het door gebruiker ingevoerde naam
     uit alle tekens die neit alfabetisch zijn.
 
-    :param: s_naam:door het gebruiker ingevoerde naam
+    :param: s_naam: door het gebruiker ingevoerde naam
 
     :return: gestripde naam (string)
     """
@@ -291,8 +301,7 @@ def main():
                 beurt = 0
                 geraden_letter = ''
                 updated_woord = ''
-                letters_gebruikt = [['* * * * * *'], ['* * * * * * * *'],
-                                    ['  * * * * * * * * * * * ']]
+
 
                 print(gekozen_woord)
                 letters_vakje = gebruikte_letters(gis)
@@ -332,8 +341,8 @@ def main():
                                 letter_raden(gis, gekozen_woord)
                             beurt = beurten_tellen(geraden_letter,
                                                    gekozen_woord, beurt,
-                                                   letters_gebruikt)
-                            letters_gebruikt = gebruikte_letters(gis)
+                                                   gis)
+                        letters_gebruikt = gebruikte_letters(gis)
                         galg = galg_maken(beurt)
 
                         print('{:>5}{:>41}\n'
@@ -346,18 +355,19 @@ def main():
                               '{:^40}\n'
                               '{:^40}'.format(
                                 'Galgje:', 'Gebruikte letters',
-                                galg[0], ' '.join(letters_vakje[:9]),
+                                galg[0], ' '.join(letters_gebruikt[:9]),
                                 galg[1],
-                                galg[2], ' '.join(letters_vakje[9:18]),
+                                galg[2], ' '.join(letters_gebruikt[9:18]),
                                 galg[3],
-                                galg[4], ' '.join(letters_vakje[18:26]),
+                                galg[4], ' '.join(letters_gebruikt[18:26]),
                                 galg[5],
                                 'Het te raden woord:',
                                 ' '.join(updated_woord)))
 
                     else:
-                        print('test')
-                        woord_geraden = True # THIS HAS TO BE CHANGED!!!!!!!!!
+                        letters_kontroleren(gekozen_woord,
+                                            gis)
+                        woord_kontroleren(geraden_letter, gekozen_woord)
 
                 if woord_geraden:
                     tijd2 = tijd_tellen()
@@ -365,11 +375,18 @@ def main():
                     punten = punten_tellen(totaale_tijd, gekozen_woord, beurt)
                     minuten, seconden = divmod(totaale_tijd, 60)
                     eind_tijd = "{}m{}s".format(minuten, seconden)
-                    lijst_ranking = ranking_vullen(scores,
+                    lijst_ranking, positie = ranking_vullen(scores,
                                                    speler_naam, gekozen_woord,
                                                    beurt, eind_tijd, punten)
+                    print('Je hebt het geraden! Het word was ', gekozen_woord)
+                    print('Je hebt ', puten, ' punten gescoord')
+                    print ('Daarmee kom je op plaats ',positie,
+                           'in de ranking')
                     ranking_wegschrijven(lijst_ranking, kopje)
                     print(lijst_ranking)
+                else:
+                    print('Helaas, je hebt het woord niet geraden. Het woord'
+                          ' was ', gekozen_woord, '.')
             elif int(k_keuze) == 3:
                 opnieuw_vragen = 'stop'
             elif int(k_keuze) == 4:

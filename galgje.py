@@ -288,6 +288,7 @@ def main():
                 print('Je hebt geen geldige keuze gemaakt.'
                       'Probeer het nog eens')
             elif int(k_keuze) == 1:
+                print(gekozen_woord)
                 toegevoegde_woord = input('Voer een woord in: ').lower()
                 woorden_lijst, verkeerde_woord = \
                     woord_toevoegen(toegevoegde_woord, woorden_lijst)
@@ -314,7 +315,7 @@ def main():
                       '{:>5}{:^60}\n'
                       '{:>5}\n'
                       '{:>5}{:^60}\n'
-                      '{:>5}\n\n'
+                      '{:>5}\n'
                       '{:^40}\n'
                       '{:^40}'.format(
                         'Galgje:', 'Gebruikte letters',
@@ -339,9 +340,9 @@ def main():
                             gis.append(geraden_letter)
                             updated_woord, woord_geraden = \
                                 letter_raden(gis, gekozen_woord)
-                            beurt = beurten_tellen(geraden_letter,
-                                                   gekozen_woord, beurt,
-                                                   gis)
+                            if geraden_letter not in gekozen_woord:
+                                beurt += 1
+                            letters_gebruikt = gebruikte_letters(gis)
                         letters_gebruikt = gebruikte_letters(gis)
                         galg = galg_maken(beurt)
 
@@ -351,7 +352,7 @@ def main():
                               '{:>5}{:^60}\n'
                               '{:>5}\n'
                               '{:>5}{:^60}\n'
-                              '{:>5}\n\n'
+                              '{:>5}\n'
                               '{:^40}\n'
                               '{:^40}'.format(
                                 'Galgje:', 'Gebruikte letters',
@@ -379,7 +380,7 @@ def main():
                                                    speler_naam, gekozen_woord,
                                                    beurt, eind_tijd, punten)
                     print('Je hebt het geraden! Het word was ', gekozen_woord)
-                    print('Je hebt ', puten, ' punten gescoord')
+                    print('Je hebt ', punten, ' punten gescoord')
                     print ('Daarmee kom je op plaats ',positie,
                            'in de ranking')
                     ranking_wegschrijven(lijst_ranking, kopje)

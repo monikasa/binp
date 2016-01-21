@@ -239,12 +239,13 @@ def ranking_wegschrijven(r_ranking, r_kopje):
     file.write('\n'.join(r_schrijfbaar))
     file.close()
 
-def letters_kontroleren(l_gekozen_woord, l_gebruikte_letters):
 
+def letters_kontroleren(l_gekozen_woord, l_gebruikte_letters):
     for letter in l_gekozen_woord:
         if letter not in l_gebruikte_letters:
             return False
     return True
+
 
 def woord_kontroleren(w_gis, w_gekozen_woord):
     return w_gis == w_gekozen_woord
@@ -264,6 +265,27 @@ def strip(s_naam):
         if letter.isalpha():
             s_return += letter
     return s_return
+
+
+def ranking_layout():
+    r_ranking = open('ranking.txt', 'r')
+    lijst_ranking = []
+    inhoud_bestand = r_ranking.read().splitlines()
+    for rij in inhoud_bestand:
+        lijst_ranking.append(rij.split(';'))
+    r_ranking.close()
+    r_kopje = lijst_ranking[0]
+    r_ranking_string = ''
+    teller = 0
+    r_ranking_string = '{:<10}{:<20}{:<10}{:<10}{:<10}{:<15}\n'.format(
+                 r_kopje[0],  r_kopje[1],  r_kopje[2],  r_kopje[3],
+                  r_kopje[4],  r_kopje[5])
+    for rij in lijst_ranking:
+        r_ranking_string += '{:<10}{:<20}{:<10}{:<10}{:<10}{:<15}\n'.format(
+                [rij[0], teller][teller > 0], rij[1], rij[2], rij[3], rij[4],
+                rij[5])
+        teller += 1
+    return r_ranking_string
 
 
 def main():
@@ -288,7 +310,7 @@ def main():
                 print('Je hebt geen geldige keuze gemaakt.'
                       'Probeer het nog eens')
             elif int(k_keuze) == 1:
-                print(gekozen_woord)
+
                 toegevoegde_woord = input('Voer een woord in: ').lower()
                 woorden_lijst, verkeerde_woord = \
                     woord_toevoegen(toegevoegde_woord, woorden_lijst)
@@ -297,12 +319,12 @@ def main():
                 tijd = tijd_tellen()
                 woordenlijst = lijst_maken()
                 gekozen_woord = choice(woordenlijst)
+                print(gekozen_woord)
                 gis = []
                 woord_geraden = False
                 beurt = 0
                 geraden_letter = ''
                 updated_woord = ''
-
 
                 print(gekozen_woord)
                 letters_vakje = gebruikte_letters(gis)
@@ -365,10 +387,15 @@ def main():
                                 'Het te raden woord:',
                                 ' '.join(updated_woord)))
 
+
                     else:
                         letters_kontroleren(gekozen_woord,
                                             gis)
-                        woord_kontroleren(geraden_letter, gekozen_woord)
+                        woord_geraden = woord_kontroleren(geraden_letter,
+                                                          gekozen_woord)
+                        break
+
+
 
                 if woord_geraden:
                     tijd2 = tijd_tellen()
@@ -377,21 +404,24 @@ def main():
                     minuten, seconden = divmod(totaale_tijd, 60)
                     eind_tijd = "{}m{}s".format(minuten, seconden)
                     lijst_ranking, positie = ranking_vullen(scores,
-                                                   speler_naam, gekozen_woord,
-                                                   beurt, eind_tijd, punten)
+                                                            speler_naam,
+                                                            gekozen_woord,
+                                                            beurt, eind_tijd,
+                                                            punten)
                     print('Je hebt het geraden! Het word was ', gekozen_woord)
                     print('Je hebt ', punten, ' punten gescoord')
-                    print ('Daarmee kom je op plaats ',positie,
-                           'in de ranking')
+                    print('Daarmee kom je op plaats ', positie,
+                          'in de ranking')
                     ranking_wegschrijven(lijst_ranking, kopje)
-                    print(lijst_ranking)
+                    print(ranking_layout())
                 else:
                     print('Helaas, je hebt het woord niet geraden. Het woord'
                           ' was ', gekozen_woord, '.')
             elif int(k_keuze) == 3:
-                opnieuw_vragen = 'stop'
+
+                print(ranking_layout())
             elif int(k_keuze) == 4:
-                print('Het spel is gestopt')
+                print(ranking_layout())
                 sluiten()
                 opnieuw_vragen = 'stop'
         else:

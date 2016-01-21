@@ -241,6 +241,15 @@ def ranking_wegschrijven(r_ranking, r_kopje):
 
 
 def letters_kontroleren(l_gekozen_woord, l_gebruikte_letters):
+    """
+    Funktiebeschrijving: Deze funktie kontroleert of door een gebruiker
+    ingevoerde letters in random woord uit de lijst woorkomen.
+
+    :param l_gekozen_woord: random woord uit de wordenlijst
+    :param l_gebruikte_letters: letters die gebruiker ingevoerd had
+
+    :return: boelien value
+    """
     for letter in l_gekozen_woord:
         if letter not in l_gebruikte_letters:
             return False
@@ -248,6 +257,14 @@ def letters_kontroleren(l_gekozen_woord, l_gebruikte_letters):
 
 
 def woord_kontroleren(w_gis, w_gekozen_woord):
+    """
+    Funktiebeschrijving:
+
+    :param w_gis: door het gebruiker ingevoerde letters
+    :param w_gekozen_woord: random woord uit het woordenlijst
+
+    :return: boelien
+    """
     return w_gis == w_gekozen_woord
 
 
@@ -268,6 +285,12 @@ def strip(s_naam):
 
 
 def ranking_layout():
+    """
+    Funktiebeschrijving: Deze funktie opent een ranking file, schrijft het
+    file tot de lijst, vervolgens converteert het lijst tot een string in
+    aangegeven format.
+    :return: string met ranking
+    """
     r_ranking = open('ranking.txt', 'r')
     lijst_ranking = []
     inhoud_bestand = r_ranking.read().splitlines()
@@ -275,7 +298,6 @@ def ranking_layout():
         lijst_ranking.append(rij.split(';'))
     r_ranking.close()
     r_kopje = lijst_ranking[0]
-    r_ranking_string = ''
     teller = 0
     r_ranking_string = '{:<10}{:<20}{:<10}{:<10}{:<10}{:<15}\n'.format(
                  r_kopje[0],  r_kopje[1],  r_kopje[2],  r_kopje[3],
@@ -386,17 +408,12 @@ def main():
                                 galg[5],
                                 'Het te raden woord:',
                                 ' '.join(updated_woord)))
-
-
                     else:
                         letters_kontroleren(gekozen_woord,
                                             gis)
                         woord_geraden = woord_kontroleren(geraden_letter,
                                                           gekozen_woord)
                         break
-
-
-
                 if woord_geraden:
                     tijd2 = tijd_tellen()
                     totaale_tijd = round(tijd2 - tijd)
